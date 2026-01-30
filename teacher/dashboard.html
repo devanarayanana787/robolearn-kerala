@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Teacher Dashboard - RoboLearn Kerala">
+    <title>Teacher Dashboard | RoboLearn Kerala</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+
+    <style>
+        .earnings-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .earnings-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--success);
+        }
+
+        .earnings-label {
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+            margin-bottom: var(--space-1);
+        }
+
+        .earnings-value {
+            font-size: var(--font-size-4xl);
+            font-weight: 800;
+            color: var(--success);
+            margin-bottom: var(--space-2);
+        }
+
+        .earnings-change {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            font-size: var(--font-size-sm);
+            color: var(--success);
+        }
+
+        .session-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            transition: all var(--transition-fast);
+        }
+
+        .session-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .session-time {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--font-size-sm);
+            color: var(--primary-light);
+            margin-bottom: var(--space-2);
+        }
+
+        .session-status {
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+        }
+
+        .session-status.upcoming {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary-light);
+        }
+
+        .session-status.live {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--error);
+            animation: pulse 2s infinite;
+        }
+
+        .session-status.completed {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .student-batch {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-4);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .student-batch:hover {
+            background: var(--glass-bg-light);
+        }
+
+        .batch-avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .batch-info {
+            flex: 1;
+        }
+
+        .batch-name {
+            font-weight: 600;
+            margin-bottom: var(--space-1);
+        }
+
+        .batch-meta {
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+        }
+
+        .quick-stat {
+            text-align: center;
+            padding: var(--space-4);
+        }
+
+        .quick-stat-value {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            margin-bottom: var(--space-1);
+        }
+
+        .quick-stat-label {
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+        }
+
+        .calendar-widget {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--space-1);
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-sm);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+        }
+
+        .calendar-day:hover {
+            background: var(--glass-bg);
+        }
+
+        .calendar-day.today {
+            background: var(--gradient-primary);
+            font-weight: 600;
+        }
+
+        .calendar-day.has-session::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            width: 4px;
+            height: 4px;
+            background: var(--success);
+            border-radius: 50%;
+        }
+
+        .action-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-6);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .action-card:hover {
+            background: var(--gradient-card);
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
+
+        .action-icon {
+            font-size: 36px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: var(--space-4);
+            left: var(--space-4);
+            z-index: 400;
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #10b981 100%);
+            border-radius: var(--radius-lg);
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="mobile-menu-btn" onclick="RoboLearn.toggleSidebar()">☰</button>
+
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar"
+            style="background: linear-gradient(180deg, var(--bg-secondary) 0%, rgba(16, 185, 129, 0.05) 100%);">
+            <div class="sidebar-brand">
+                <span style="font-size: 28px;">👨‍🏫</span>
+                <span class="sidebar-brand-text">RoboLearn</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="sidebar-link active">
+                    <span>📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="students.html" class="sidebar-link">
+                    <span>👥</span>
+                    <span>My Students</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <span>📅</span>
+                    <span>Sessions</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <span>📚</span>
+                    <span>Lesson Plans</span>
+                </a>
+                <a href="earnings.html" class="sidebar-link">
+                    <span>💰</span>
+                    <span>Earnings</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <span>📈</span>
+                    <span>Performance</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <span>👤</span>
+                    <span>My Profile</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <span>⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div style="margin-top: auto; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="login.html" class="sidebar-link" style="color: var(--error);">
+                    <span>🚪</span>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Welcome, Rahul! 👋</h1>
+                    <p class="dashboard-subtitle">You have 3 sessions scheduled today</p>
+                </div>
+                <div class="flex gap-4 items-center">
+                    <a href="#" class="btn btn-primary">+ Schedule Session</a>
+                    <div
+                        style="width: 44px; height: 44px; background: linear-gradient(135deg, #8b5cf6, #10b981); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                        👨‍🎓
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings & Quick Stats -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6" style="margin-bottom: var(--space-8);">
+                <div class="earnings-card" style="grid-column: span 2;">
+                    <div class="earnings-label">This Month's Earnings</div>
+                    <div class="earnings-value">₹12,500</div>
+                    <div class="earnings-change">↑ 23% from last month</div>
+                    <div style="margin-top: var(--space-4); display: flex; gap: var(--space-6);">
+                        <div>
+                            <div style="font-size: var(--font-size-sm); color: var(--text-muted);">Sessions</div>
+                            <div style="font-weight: 600;">18</div>
+                        </div>
+                        <div>
+                            <div style="font-size: var(--font-size-sm); color: var(--text-muted);">Hours Taught</div>
+                            <div style="font-weight: 600;">27h</div>
+                        </div>
+                        <div>
+                            <div style="font-size: var(--font-size-sm); color: var(--text-muted);">Avg Rating</div>
+                            <div style="font-weight: 600;">⭐ 4.8</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card-static">
+                    <div class="quick-stat">
+                        <div class="quick-stat-value" style="color: var(--primary-light);">24</div>
+                        <div class="quick-stat-label">Active Students</div>
+                    </div>
+                </div>
+
+                <div class="glass-card-static">
+                    <div class="quick-stat">
+                        <div class="quick-stat-value" style="color: var(--success);">98%</div>
+                        <div class="quick-stat-label">Attendance Rate</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6" style="margin-bottom: var(--space-8);">
+                <!-- Today's Sessions -->
+                <div class="glass-card-static" style="grid-column: span 2;">
+                    <div class="flex justify-between items-center" style="margin-bottom: var(--space-6);">
+                        <h3>Today's Sessions</h3>
+                        <a href="#" class="btn btn-sm btn-secondary">View All</a>
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        <div class="session-card">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="session-time">
+                                        <span>🕐</span>
+                                        <span>10:00 AM - 11:30 AM</span>
+                                    </div>
+                                    <h4 style="margin-bottom: var(--space-2);">LED Basics Workshop</h4>
+                                    <div style="font-size: var(--font-size-sm); color: var(--text-muted);">
+                                        Batch A • 8 Students
+                                    </div>
+                                </div>
+                                <span class="session-status completed">Completed</span>
+                            </div>
+                        </div>
+
+                        <div class="session-card" style="border-color: rgba(239, 68, 68, 0.5);">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="session-time" style="color: var(--error);">
+                                        <span>🔴</span>
+                                        <span>LIVE NOW • Started 15 min ago</span>
+                                    </div>
+                                    <h4 style="margin-bottom: var(--space-2);">Sensor Integration</h4>
+                                    <div style="font-size: var(--font-size-sm); color: var(--text-muted);">
+                                        Batch B • 6 Students
+                                    </div>
+                                </div>
+                                <a href="#" class="btn btn-sm" style="background: var(--error);">Join Now</a>
+                            </div>
+                        </div>
+
+                        <div class="session-card">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="session-time">
+                                        <span>🕐</span>
+                                        <span>4:00 PM - 5:30 PM</span>
+                                    </div>
+                                    <h4 style="margin-bottom: var(--space-2);">Motor Control Workshop</h4>
+                                    <div style="font-size: var(--font-size-sm); color: var(--text-muted);">
+                                        Batch C • 10 Students
+                                    </div>
+                                </div>
+                                <span class="session-status upcoming">Upcoming</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="glass-card-static">
+                    <h3 style="margin-bottom: var(--space-6);">Quick Actions</h3>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="action-card">
+                            <div class="action-icon">📹</div>
+                            <span style="font-size: var(--font-size-sm);">Start Session</span>
+                        </div>
+                        <div class="action-card">
+                            <div class="action-icon">📝</div>
+                            <span style="font-size: var(--font-size-sm);">Create Activity</span>
+                        </div>
+                        <div class="action-card">
+                            <div class="action-icon">📊</div>
+                            <span style="font-size: var(--font-size-sm);">View Reports</span>
+                        </div>
+                        <div class="action-card">
+                            <div class="action-icon">💬</div>
+                            <span style="font-size: var(--font-size-sm);">Messages</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Student Batches -->
+                <div class="glass-card-static">
+                    <div class="flex justify-between items-center" style="margin-bottom: var(--space-6);">
+                        <h3>Your Batches</h3>
+                        <a href="students.html" class="btn btn-sm btn-secondary">Manage</a>
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        <div class="student-batch">
+                            <div class="batch-avatar">🅰️</div>
+                            <div class="batch-info">
+                                <div class="batch-name">Batch A - Arduino Basics</div>
+                                <div class="batch-meta">8 Students • Class 7-8</div>
+                            </div>
+                            <span class="badge badge-success">Active</span>
+                        </div>
+
+                        <div class="student-batch">
+                            <div class="batch-avatar">🅱️</div>
+                            <div class="batch-info">
+                                <div class="batch-name">Batch B - Sensors & Motors</div>
+                                <div class="batch-meta">6 Students • Class 9-10</div>
+                            </div>
+                            <span class="badge badge-success">Active</span>
+                        </div>
+
+                        <div class="student-batch">
+                            <div class="batch-avatar">🇨</div>
+                            <div class="batch-info">
+                                <div class="batch-name">Batch C - Robotics Advanced</div>
+                                <div class="batch-meta">10 Students • Class 9-10</div>
+                            </div>
+                            <span class="badge badge-primary">New</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Reviews -->
+                <div class="glass-card-static">
+                    <div class="flex justify-between items-center" style="margin-bottom: var(--space-6);">
+                        <h3>Recent Reviews</h3>
+                        <span style="color: var(--warning); font-weight: 600;">⭐ 4.8 avg</span>
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        <div
+                            style="padding: var(--space-4); background: var(--glass-bg); border-radius: var(--radius-lg);">
+                            <div style="display: flex; gap: var(--space-1); margin-bottom: var(--space-2);">
+                                ⭐⭐⭐⭐⭐
+                            </div>
+                            <p
+                                style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: var(--space-2);">
+                                "Rahul sir explains everything so clearly! Really enjoying the motor control lessons."
+                            </p>
+                            <div style="font-size: var(--font-size-xs); color: var(--text-muted);">
+                                - Arjun M. (Batch C) • 2 days ago
+                            </div>
+                        </div>
+
+                        <div
+                            style="padding: var(--space-4); background: var(--glass-bg); border-radius: var(--radius-lg);">
+                            <div style="display: flex; gap: var(--space-1); margin-bottom: var(--space-2);">
+                                ⭐⭐⭐⭐⭐
+                            </div>
+                            <p
+                                style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: var(--space-2);">
+                                "Best robotics teacher! Very patient and helpful."
+                            </p>
+                            <div style="font-size: var(--font-size-xs); color: var(--text-muted);">
+                                - Lakshmi N. (Batch A) • 5 days ago
+                            </div>
+                        </div>
+
+                        <div
+                            style="padding: var(--space-4); background: var(--glass-bg); border-radius: var(--radius-lg);">
+                            <div style="display: flex; gap: var(--space-1); margin-bottom: var(--space-2);">
+                                ⭐⭐⭐⭐
+                            </div>
+                            <p
+                                style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: var(--space-2);">
+                                "Good teaching, would love more hands-on projects."
+                            </p>
+                            <div style="font-size: var(--font-size-xs); color: var(--text-muted);">
+                                - Vishnu K. (Batch B) • 1 week ago
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../scripts/main.js"></script>
+</body>
+
+</html>

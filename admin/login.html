@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | RoboLearn Kerala</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #7c3aed 100%);
+            position: relative;
+            padding: var(--space-6);
+        }
+
+        .auth-page::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.3) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-10);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+        }
+
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-6);
+        }
+
+        .auth-title {
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--space-2);
+        }
+
+        .auth-subtitle {
+            color: var(--text-secondary);
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-5);
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            color: var(--text-muted);
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .back-link {
+            position: absolute;
+            top: var(--space-6);
+            left: var(--space-6);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--text-secondary);
+            font-weight: 500;
+            z-index: 10;
+        }
+
+        .back-link:hover {
+            color: var(--white);
+        }
+
+        .admin-warning {
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(124, 58, 237, 0.4);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            text-align: center;
+            margin-bottom: var(--space-6);
+            font-size: var(--font-size-sm);
+            color: var(--accent-light);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-page">
+        <a href="../index.html" class="back-link"><span>←</span><span>Back to Home</span></a>
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <span style="font-size: 40px;">🔐</span>
+                        <span style="font-size: var(--font-size-xl); font-weight: 700;">RoboLearn <span
+                                style="color: var(--accent-light);">Admin</span></span>
+                    </div>
+                    <h1 class="auth-title">Admin Portal</h1>
+                    <p class="auth-subtitle">Authorized personnel only</p>
+                </div>
+                <div class="admin-warning">⚠️ This area is restricted to authorized administrators</div>
+                <form class="auth-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">Admin Email</label>
+                        <input type="email" class="form-input" placeholder="admin@robolearnkerala.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="Enter password"
+                            required>
+                        <button type="button" class="password-toggle"
+                            onclick="togglePassword('loginPassword')">👁️</button>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">2FA Code</label>
+                        <input type="text" class="form-input" placeholder="Enter 6-digit code" maxlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-lg w-full"
+                        style="background: linear-gradient(135deg, #7c3aed, #8b5cf6);">Access Admin Panel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="../scripts/main.js"></script>
+    <script>
+        function togglePassword(id) { const i = document.getElementById(id); i.type = i.type === 'password' ? 'text' : 'password'; }
+        function handleLogin(e) { e.preventDefault(); window.location.href = 'dashboard.html'; }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RoboLearn Kerala - Bridge the gap between robotics learning and Arduino coding for school students. Kit-based learning with OTG support for grades 7-10 CBSE, ICSE & Kerala State syllabus.">
+  <meta name="keywords" content="robotics, arduino, kerala, education, STEM, coding, microcontroller, school, CBSE, ICSE">
+  <title>RoboLearn Kerala | Robotics & Arduino Education for Schools</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles/main.css">
+  
+  <style>
+    /* Page-specific hero enhancements */
+    .hero-robot {
+      position: absolute;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 500px;
+      height: 500px;
+      opacity: 0.9;
+    }
+    
+    .hero-robot::before {
+      content: '🤖';
+      font-size: 200px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: float 4s ease-in-out infinite;
+    }
+    
+    .circuit-pattern {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.5;
+    }
+    
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: pulse 4s ease-in-out infinite;
+    }
+    
+    .glow-orb-1 {
+      width: 400px;
+      height: 400px;
+      background: rgba(99, 102, 241, 0.4);
+      top: 10%;
+      left: 10%;
+    }
+    
+    .glow-orb-2 {
+      width: 300px;
+      height: 300px;
+      background: rgba(139, 92, 246, 0.3);
+      bottom: 20%;
+      right: 15%;
+      animation-delay: 2s;
+    }
+    
+    .glow-orb-3 {
+      width: 200px;
+      height: 200px;
+      background: rgba(236, 72, 153, 0.2);
+      top: 60%;
+      left: 30%;
+      animation-delay: 1s;
+    }
+    
+    .kit-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+    }
+    
+    .kit-3d {
+      font-size: 150px;
+      animation: float 5s ease-in-out infinite;
+    }
+    
+    .testimonial-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      position: relative;
+    }
+    
+    .testimonial-quote {
+      font-size: var(--font-size-lg);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-6);
+      font-style: italic;
+    }
+    
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+    
+    .testimonial-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: var(--radius-full);
+      background: var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-xl);
+    }
+    
+    .testimonial-name {
+      font-weight: 600;
+    }
+    
+    .testimonial-role {
+      font-size: var(--font-size-sm);
+      color: var(--text-muted);
+    }
+    
+    .pricing-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      text-align: center;
+      transition: all var(--transition-base);
+    }
+    
+    .pricing-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-glow);
+    }
+    
+    .pricing-card.featured {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.1) 100%);
+    }
+    
+    .pricing-card.featured::before {
+      content: 'Most Popular';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gradient-primary);
+      color: white;
+      padding: var(--space-1) var(--space-4);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+    }
+    
+    .pricing-price {
+      font-size: var(--font-size-4xl);
+      font-weight: 800;
+      margin: var(--space-4) 0;
+    }
+    
+    .pricing-price span {
+      font-size: var(--font-size-base);
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+    
+    .pricing-features {
+      text-align: left;
+      margin: var(--space-6) 0;
+    }
+    
+    .pricing-feature {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2) 0;
+      color: var(--text-secondary);
+    }
+    
+    .pricing-feature::before {
+      content: '✓';
+      color: var(--success);
+      font-weight: bold;
+    }
+    
+    .how-it-works-step {
+      text-align: center;
+      position: relative;
+    }
+    
+    .step-number {
+      width: 60px;
+      height: 60px;
+      background: var(--gradient-primary);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-2xl);
+      font-weight: 700;
+      margin: 0 auto var(--space-5);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .step-connector {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      width: 100%;
+      height: 2px;
+      background: var(--gradient-primary);
+      opacity: 0.3;
+    }
+    
+    .step-connector:last-child {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand">
+        <span style="font-size: 32px;">🤖</span>
+        <span>RoboLearn <span class="text-gradient">Kerala</span></span>
+      </a>
+      
+      <div class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#kit" class="nav-link">The Kit</a>
+        <a href="#pricing" class="nav-link">Pricing</a>
+        <a href="#testimonials" class="nav-link">Testimonials</a>
+      </div>
+      
+      <div class="nav-actions">
+        <a href="student/login.html" class="btn btn-secondary">Student Login</a>
+        <a href="teacher/login.html" class="btn btn-primary">Become a Teacher</a>
+      </div>
+      
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    
+    <!-- Mobile Navigation -->
+    <div class="nav-mobile" id="navMobile">
+      <div class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#kit" class="nav-link">The Kit</a>
+        <a href="#pricing" class="nav-link">Pricing</a>
+        <a href="#testimonials" class="nav-link">Testimonials</a>
+      </div>
+      <div class="nav-actions">
+        <a href="student/login.html" class="btn btn-secondary w-full">Student Login</a>
+        <a href="teacher/login.html" class="btn btn-primary w-full">Become a Teacher</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="circuit-pattern"></div>
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+    
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span>🚀</span>
+          <span>Bridging Education & Innovation</span>
+        </div>
+        
+        <h1 class="hero-title">
+          Learn <span class="text-gradient">Robotics</span> & Arduino<br>
+          Right From Your Phone
+        </h1>
+        
+        <p class="hero-description">
+          Empowering Kerala's students (Grades 7-10) with hands-on robotics and microcontroller education. 
+          No laptop needed — just your smartphone with OTG and our comprehensive learning kit!
+        </p>
+        
+        <div class="hero-actions">
+          <a href="#pricing" class="btn btn-primary btn-lg">
+            <span>Get Started</span>
+            <span>→</span>
+          </a>
+          <a href="#how-it-works" class="btn btn-secondary btn-lg">
+            <span>Learn More</span>
+          </a>
+        </div>
+        
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-value">1000+</div>
+            <div class="hero-stat-label">Students Learning</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">50+</div>
+            <div class="hero-stat-label">Expert Teachers</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">100%</div>
+            <div class="hero-stat-label">Practical Learning</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="hero-robot"></div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section" id="features" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-badge">Why Choose Us</span>
+        <h2 class="section-title">Features That <span class="text-gradient">Empower</span> Learning</h2>
+        <p class="section-description">
+          Our platform is designed specifically for Kerala students, making robotics education accessible, 
+          engaging, and aligned with CBSE, ICSE, and State syllabus.
+        </p>
+      </div>
+      
+      <div class="cards-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon">📱</div>
+          <h3 class="feature-title">OTG-Based Learning</h3>
+          <p class="feature-description">
+            No expensive laptop required! Connect Arduino directly to your smartphone via OTG and start coding right away.
+          </p>
+        </div>
+        
+        <div class="feature-card reveal">
+          <div class="feature-icon">📦</div>
+          <h3 class="feature-title">Complete Kit Included</h3>
+          <p class="feature-description">
+            Everything you need in one box — Arduino, sensors, motors, breadboard, and all components for hands-on projects.
+          </p>
+        </div>
+        
+        <div class="feature-card reveal">
+          <div class="feature-icon">👨‍🏫</div>
+          <h3 class="feature-title">Expert Engineering Teachers</h3>
+          <p class="feature-description">
+            Learn from passionate engineering college students who make complex concepts simple and fun to understand.
+          </p>
+        </div>
+        
+        <div class="feature-card reveal">
+          <div class="feature-icon">📚</div>
+          <h3 class="feature-title">Syllabus Aligned</h3>
+          <p class="feature-description">
+            Content designed for CBSE, ICSE, and Kerala State Board students from Grade 7 to 10.
+          </p>
+        </div>
+        
+        <div class="feature-card reveal">
+          <div class="feature-icon">🏆</div>
+          <h3 class="feature-title">Project-Based Learning</h3>
+          <p class="feature-description">
+            Build real projects — from LED blinkers to line-following robots. Learn by doing, not just reading.
+          </p>
+        </div>
+        
+        <div class="feature-card reveal">
+          <div class="feature-icon">💰</div>
+          <h3 class="feature-title">Affordable Pricing</h3>
+          <p class="feature-description">
+            Quality robotics education at prices that don't break the bank. Flexible payment options available.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="section" id="how-it-works">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-badge">Simple Process</span>
+        <h2 class="section-title">How It <span class="text-gradient">Works</span></h2>
+        <p class="section-description">
+          Get started with robotics learning in just 4 simple steps
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="how-it-works-step reveal">
+          <div class="step-connector"></div>
+          <div class="step-number">1</div>
+          <h4 style="margin-bottom: var(--space-3);">Register Online</h4>
+          <p style="color: var(--text-secondary);">
+            Sign up on our platform and choose your preferred learning plan.
+          </p>
+        </div>
+        
+        <div class="how-it-works-step reveal">
+          <div class="step-connector"></div>
+          <div class="step-number">2</div>
+          <h4 style="margin-bottom: var(--space-3);">Receive Your Kit</h4>
+          <p style="color: var(--text-secondary);">
+            Get your complete robotics kit delivered to your doorstep.
+          </p>
+        </div>
+        
+        <div class="how-it-works-step reveal">
+          <div class="step-connector"></div>
+          <div class="step-number">3</div>
+          <h4 style="margin-bottom: var(--space-3);">Connect & Learn</h4>
+          <p style="color: var(--text-secondary);">
+            Connect Arduino via OTG and start learning with our expert teachers.
+          </p>
+        </div>
+        
+        <div class="how-it-works-step reveal">
+          <div class="step-number">4</div>
+          <h4 style="margin-bottom: var(--space-3);">Build Projects</h4>
+          <p style="color: var(--text-secondary);">
+            Complete exciting projects and earn certificates of achievement.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kit Section -->
+  <section class="section" id="kit" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div class="kit-visual reveal">
+          <div class="glass-card-static" style="padding: var(--space-12);">
+            <div class="kit-3d">🔧</div>
+            <div style="text-align: center; margin-top: var(--space-6);">
+              <span class="badge badge-primary" style="font-size: var(--font-size-base); padding: var(--space-2) var(--space-4);">
+                Complete Learning Kit
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reveal">
+          <span class="section-badge">What's Included</span>
+          <h2 class="section-title" style="text-align: left;">The <span class="text-gradient">RoboLearn</span> Kit</h2>
+          <p style="color: var(--text-secondary); margin-bottom: var(--space-6);">
+            Everything you need to start your robotics journey, carefully curated by our engineering experts.
+          </p>
+          
+          <div class="grid grid-cols-2 gap-4">
+            <div class="glass-card">
+              <span style="font-size: 24px;">🎛️</span>
+              <h5 style="margin-top: var(--space-2);">Arduino UNO</h5>
+            </div>
+            <div class="glass-card">
+              <span style="font-size: 24px;">📲</span>
+              <h5 style="margin-top: var(--space-2);">OTG Cable</h5>
+            </div>
+            <div class="glass-card">
+              <span style="font-size: 24px;">💡</span>
+              <h5 style="margin-top: var(--space-2);">LEDs & Sensors</h5>
+            </div>
+            <div class="glass-card">
+              <span style="font-size: 24px;">⚡</span>
+              <h5 style="margin-top: var(--space-2);">Breadboard</h5>
+            </div>
+            <div class="glass-card">
+              <span style="font-size: 24px;">🔌</span>
+              <h5 style="margin-top: var(--space-2);">Jumper Wires</h5>
+            </div>
+            <div class="glass-card">
+              <span style="font-size: 24px;">⚙️</span>
+              <h5 style="margin-top: var(--space-2);">Motors & Wheels</h5>
+            </div>
+          </div>
+          
+          <a href="#pricing" class="btn btn-primary btn-lg" style="margin-top: var(--space-8);">
+            Get Your Kit Now →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="section" id="pricing">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-badge">Affordable Plans</span>
+        <h2 class="section-title">Choose Your <span class="text-gradient">Plan</span></h2>
+        <p class="section-description">
+          Flexible pricing options to suit every family's budget
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="pricing-card reveal">
+          <h3 style="margin-bottom: var(--space-2);">Starter</h3>
+          <p style="color: var(--text-muted); font-size: var(--font-size-sm);">For curious beginners</p>
+          <div class="pricing-price">
+            ₹2,999<span>/one-time</span>
+          </div>
+          <div class="pricing-features">
+            <div class="pricing-feature">Basic Arduino Kit</div>
+            <div class="pricing-feature">10 Beginner Projects</div>
+            <div class="pricing-feature">Video Tutorials</div>
+            <div class="pricing-feature">OTG Cable Included</div>
+            <div class="pricing-feature">Email Support</div>
+          </div>
+          <a href="student/login.html" class="btn btn-outline w-full">Get Started</a>
+        </div>
+        
+        <div class="pricing-card featured reveal" style="position: relative;">
+          <h3 style="margin-bottom: var(--space-2);">Pro Learner</h3>
+          <p style="color: var(--text-muted); font-size: var(--font-size-sm);">Most popular choice</p>
+          <div class="pricing-price">
+            ₹4,999<span>/one-time</span>
+          </div>
+          <div class="pricing-features">
+            <div class="pricing-feature">Complete Robotics Kit</div>
+            <div class="pricing-feature">25+ Guided Projects</div>
+            <div class="pricing-feature">Live Teacher Sessions</div>
+            <div class="pricing-feature">OTG Cable Included</div>
+            <div class="pricing-feature">Certificate of Completion</div>
+            <div class="pricing-feature">Priority Support</div>
+          </div>
+          <a href="student/login.html" class="btn btn-primary w-full">Get Started</a>
+        </div>
+        
+        <div class="pricing-card reveal">
+          <h3 style="margin-bottom: var(--space-2);">School Bundle</h3>
+          <p style="color: var(--text-muted); font-size: var(--font-size-sm);">For schools & groups</p>
+          <div class="pricing-price">
+            ₹3,499<span>/student</span>
+          </div>
+          <div class="pricing-features">
+            <div class="pricing-feature">Minimum 10 Students</div>
+            <div class="pricing-feature">Complete Robotics Kit</div>
+            <div class="pricing-feature">On-site Training Option</div>
+            <div class="pricing-feature">Teacher Training Included</div>
+            <div class="pricing-feature">Bulk Discount</div>
+            <div class="pricing-feature">Dedicated Support</div>
+          </div>
+          <a href="#contact" class="btn btn-outline w-full">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="section" id="testimonials" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-badge">Success Stories</span>
+        <h2 class="section-title">What <span class="text-gradient">Students</span> Say</h2>
+        <p class="section-description">
+          Hear from our students and parents about their learning experience
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="testimonial-card reveal">
+          <p class="testimonial-quote">
+            "I never thought I could program robots using just my phone! RoboLearn made it so simple and fun. 
+            The teachers explain everything in Malayalam which helps a lot."
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">👦</div>
+            <div>
+              <div class="testimonial-name">Arjun Menon</div>
+              <div class="testimonial-role">Class 9, CBSE Student</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card reveal">
+          <p class="testimonial-quote">
+            "My daughter's interest in science has grown tremendously since joining RoboLearn. 
+            The kit is well-designed and the projects are engaging."
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">👩</div>
+            <div>
+              <div class="testimonial-name">Lakshmi Nair</div>
+              <div class="testimonial-role">Parent of Class 8 Student</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card reveal">
+          <p class="testimonial-quote">
+            "As a teacher with RoboLearn, I earn while teaching what I love. The platform provides 
+            excellent support and training materials for teachers."
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">👨‍🎓</div>
+            <div>
+              <div class="testimonial-name">Rahul Krishna</div>
+              <div class="testimonial-role">Engineering Student & Teacher</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section" style="background: var(--gradient-hero); position: relative; overflow: hidden;">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    
+    <div class="container" style="position: relative; z-index: 1;">
+      <div class="text-center reveal">
+        <h2 class="section-title" style="margin-bottom: var(--space-6);">
+          Ready to Start Your <span class="text-gradient">Robotics Journey</span>?
+        </h2>
+        <p style="color: var(--gray-300); max-width: 600px; margin: 0 auto var(--space-8); font-size: var(--font-size-lg);">
+          Join thousands of Kerala students who are already learning robotics and Arduino programming. 
+          Start today with our complete learning kit!
+        </p>
+        <div class="flex justify-center gap-4 flex-wrap">
+          <a href="student/login.html" class="btn btn-primary btn-lg">
+            <span>Join as Student</span>
+            <span>→</span>
+          </a>
+          <a href="teacher/login.html" class="btn btn-secondary btn-lg">
+            <span>Become a Teacher</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <span style="font-size: 28px;">🤖</span>
+            <span>RoboLearn Kerala</span>
+          </div>
+          <p class="footer-description">
+            Empowering Kerala's students with hands-on robotics and Arduino education. 
+            Making technology education accessible to all.
+          </p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook">📘</a>
+            <a href="#" aria-label="Instagram">📸</a>
+            <a href="#" aria-label="YouTube">▶️</a>
+            <a href="#" aria-label="WhatsApp">💬</a>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Quick Links</h4>
+          <div class="footer-links">
+            <a href="#features" class="footer-link">Features</a>
+            <a href="#how-it-works" class="footer-link">How It Works</a>
+            <a href="#kit" class="footer-link">The Kit</a>
+            <a href="#pricing" class="footer-link">Pricing</a>
+            <a href="#testimonials" class="footer-link">Testimonials</a>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Portals</h4>
+          <div class="footer-links">
+            <a href="student/login.html" class="footer-link">Student Login</a>
+            <a href="teacher/login.html" class="footer-link">Teacher Login</a>
+            <a href="admin/login.html" class="footer-link">Admin Login</a>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Contact Us</h4>
+          <div class="footer-links">
+            <span class="footer-link">📍 Kochi, Kerala, India</span>
+            <span class="footer-link">📧 hello@robolearnkerala.com</span>
+            <span class="footer-link">📞 +91 98765 43210</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>© 2026 RoboLearn Kerala. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a href="#" class="footer-link">Privacy Policy</a>
+          <a href="#" class="footer-link">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="scripts/main.js"></script>
+</body>
+</html>

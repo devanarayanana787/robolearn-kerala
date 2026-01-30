@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Student Login - RoboLearn Kerala Robotics Education Platform">
+    <title>Student Login | RoboLearn Kerala</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-hero);
+            position: relative;
+            overflow: hidden;
+            padding: var(--space-6);
+        }
+
+        .auth-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.3) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 440px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-10);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+        }
+
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-6);
+        }
+
+        .auth-logo-icon {
+            font-size: 40px;
+        }
+
+        .auth-logo-text {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+        }
+
+        .auth-title {
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--space-2);
+        }
+
+        .auth-subtitle {
+            color: var(--text-secondary);
+        }
+
+        .auth-tabs {
+            display: flex;
+            background: var(--glass-bg);
+            border-radius: var(--radius-lg);
+            padding: var(--space-1);
+            margin-bottom: var(--space-6);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: var(--space-3);
+            text-align: center;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .auth-tab.active {
+            background: var(--gradient-primary);
+            color: var(--white);
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-5);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+        }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            color: var(--text-muted);
+            font-size: var(--font-size-sm);
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .social-login {
+            display: flex;
+            gap: var(--space-4);
+        }
+
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            padding: var(--space-3);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: all var(--transition-fast);
+        }
+
+        .social-btn:hover {
+            background: var(--glass-bg-light);
+            transform: translateY(-2px);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: var(--space-6);
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .auth-footer a {
+            color: var(--primary-light);
+            font-weight: 500;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            color: var(--text-muted);
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .back-link {
+            position: absolute;
+            top: var(--space-6);
+            left: var(--space-6);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--text-secondary);
+            font-weight: 500;
+            z-index: 10;
+        }
+
+        .back-link:hover {
+            color: var(--white);
+        }
+
+        /* Hide forms by default */
+        .form-panel {
+            display: none;
+        }
+
+        .form-panel.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-page">
+        <a href="../index.html" class="back-link">
+            <span>←</span>
+            <span>Back to Home</span>
+        </a>
+
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <span class="auth-logo-icon">🤖</span>
+                        <span class="auth-logo-text">RoboLearn <span class="text-gradient">Kerala</span></span>
+                    </div>
+                    <h1 class="auth-title">Student Portal</h1>
+                    <p class="auth-subtitle">Access your robotics learning dashboard</p>
+                </div>
+
+                <div class="auth-tabs">
+                    <div class="auth-tab active" data-tab="login">Login</div>
+                    <div class="auth-tab" data-tab="register">Register</div>
+                </div>
+
+                <!-- Login Form -->
+                <div class="form-panel active" id="loginForm">
+                    <form class="auth-form" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label class="form-label">Email or Phone</label>
+                            <input type="text" class="form-input" placeholder="Enter email or phone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-input" id="loginPassword" placeholder="Enter password"
+                                required>
+                            <button type="button" class="password-toggle"
+                                onclick="togglePassword('loginPassword')">👁️</button>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <label style="display: flex; align-items: center; gap: var(--space-2); cursor: pointer;">
+                                <input type="checkbox" style="accent-color: var(--primary);">
+                                <span style="font-size: var(--font-size-sm); color: var(--text-secondary);">Remember
+                                    me</span>
+                            </label>
+                            <a href="#" style="font-size: var(--font-size-sm);">Forgot password?</a>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-full">
+                            Login to Dashboard
+                        </button>
+                    </form>
+
+                    <div class="auth-divider" style="margin: var(--space-6) 0;">or continue with</div>
+
+                    <div class="social-login">
+                        <button class="social-btn">
+                            <span>📱</span>
+                            <span>Phone OTP</span>
+                        </button>
+                        <button class="social-btn">
+                            <span>🔵</span>
+                            <span>Google</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Register Form -->
+                <div class="form-panel" id="registerForm">
+                    <form class="auth-form" onsubmit="handleRegister(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">First Name</label>
+                                <input type="text" class="form-input" placeholder="First name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" class="form-input" placeholder="Last name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-input" placeholder="+91 XXXXX XXXXX" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Class</label>
+                                <select class="form-select" required>
+                                    <option value="">Select Class</option>
+                                    <option value="7">Class 7</option>
+                                    <option value="8">Class 8</option>
+                                    <option value="9">Class 9</option>
+                                    <option value="10">Class 10</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Board</label>
+                                <select class="form-select" required>
+                                    <option value="">Select Board</option>
+                                    <option value="cbse">CBSE</option>
+                                    <option value="icse">ICSE</option>
+                                    <option value="state">Kerala State</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-input" id="registerPassword"
+                                placeholder="Create password" required>
+                            <button type="button" class="password-toggle"
+                                onclick="togglePassword('registerPassword')">👁️</button>
+                        </div>
+
+                        <label style="display: flex; align-items: flex-start; gap: var(--space-2); cursor: pointer;">
+                            <input type="checkbox" style="accent-color: var(--primary); margin-top: 4px;" required>
+                            <span style="font-size: var(--font-size-sm); color: var(--text-secondary);">
+                                I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                            </span>
+                        </label>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-full">
+                            Create Account
+                        </button>
+                    </form>
+                </div>
+
+                <div class="auth-footer">
+                    Are you a teacher? <a href="../teacher/login.html">Login as Teacher</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../scripts/main.js"></script>
+    <script>
+        // Tab switching
+        const tabs = document.querySelectorAll('.auth-tab');
+        const panels = document.querySelectorAll('.form-panel');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.dataset.tab;
+
+                tabs.forEach(t => t.classList.remove('active'));
+                panels.forEach(p => p.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(target + 'Form').classList.add('active');
+            });
+        });
+
+        // Password toggle
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        // Login handler
+        function handleLogin(e) {
+            e.preventDefault();
+            // Simulate login - redirect to dashboard
+            window.location.href = 'dashboard.html';
+        }
+
+        // Register handler
+        function handleRegister(e) {
+            e.preventDefault();
+            // Simulate registration - redirect to dashboard
+            RoboLearn.showToast('Registration successful! Redirecting...', 'success');
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        }
+    </script>
+</body>
+
+</html>

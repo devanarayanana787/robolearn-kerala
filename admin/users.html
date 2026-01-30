@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management | RoboLearn Kerala</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        .user-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .search-box input {
+            padding-left: 40px;
+        }
+
+        .search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .user-avatar.student {
+            background: var(--gradient-primary);
+        }
+
+        .user-avatar.teacher {
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--glass-bg);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .action-btn:hover {
+            background: var(--glass-bg-light);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: var(--space-4);
+            left: var(--space-4);
+            z-index: 400;
+            width: 44px;
+            height: 44px;
+            background: var(--accent);
+            border-radius: var(--radius-lg);
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="mobile-menu-btn" onclick="RoboLearn.toggleSidebar()">☰</button>
+    <div class="dashboard">
+        <aside class="sidebar"
+            style="background: linear-gradient(180deg, var(--bg-secondary) 0%, rgba(124,58,237,0.05) 100%);">
+            <div class="sidebar-brand"><span style="font-size:28px">🔐</span><span class="sidebar-brand-text">Admin
+                    Panel</span></div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="sidebar-link"><span>📊</span><span>Dashboard</span></a>
+                <a href="users.html" class="sidebar-link active"><span>👥</span><span>Users</span></a>
+                <a href="#" class="sidebar-link"><span>📚</span><span>Courses</span></a>
+                <a href="#" class="sidebar-link"><span>📦</span><span>Kit Inventory</span></a>
+                <a href="#" class="sidebar-link"><span>💰</span><span>Payments</span></a>
+                <a href="#" class="sidebar-link"><span>📈</span><span>Analytics</span></a>
+                <a href="#" class="sidebar-link"><span>⚙️</span><span>Settings</span></a>
+            </nav>
+            <div style="margin-top:auto;padding-top:var(--space-6);border-top:1px solid var(--border-color)">
+                <a href="login.html" class="sidebar-link"
+                    style="color:var(--error)"><span>🚪</span><span>Logout</span></a>
+            </div>
+        </aside>
+        <main class="main-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">User Management 👥</h1>
+                    <p class="dashboard-subtitle">Manage students and teachers</p>
+                </div>
+                <button class="btn btn-primary">+ Add User</button>
+            </div>
+
+            <div class="user-filters">
+                <div class="search-box"><input type="text" class="form-input" placeholder="Search users..."></div>
+                <select class="form-select" style="width:auto">
+                    <option>All Types</option>
+                    <option>Students</option>
+                    <option>Teachers</option>
+                </select>
+                <select class="form-select" style="width:auto">
+                    <option>All Status</option>
+                    <option>Active</option>
+                    <option>Pending</option>
+                    <option>Inactive</option>
+                </select>
+                <select class="form-select" style="width:auto">
+                    <option>All Boards</option>
+                    <option>CBSE</option>
+                    <option>ICSE</option>
+                    <option>Kerala State</option>
+                </select>
+            </div>
+
+            <div class="data-table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Type</th>
+                            <th>Board/College</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="flex items-center gap-3">
+                                    <div class="user-avatar student">👦</div>
+                                    <div>
+                                        <div style="font-weight:500">Arjun Menon</div>
+                                        <div style="font-size:var(--font-size-sm);color:var(--text-muted)">
+                                            arjun@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge badge-primary">Student</span></td>
+                            <td>Class 9 • CBSE</td>
+                            <td><span class="badge badge-success">Active</span></td>
+                            <td>Jan 15, 2026</td>
+                            <td><button class="action-btn">👁️</button> <button class="action-btn">✏️</button> <button
+                                    class="action-btn">🗑️</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="flex items-center gap-3">
+                                    <div class="user-avatar teacher">👨‍🎓</div>
+                                    <div>
+                                        <div style="font-weight:500">Rahul Krishna</div>
+                                        <div style="font-size:var(--font-size-sm);color:var(--text-muted)">
+                                            rahul@college.edu</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge"
+                                    style="background:rgba(16,185,129,0.2);color:var(--success)">Teacher</span></td>
+                            <td>CET Trivandrum</td>
+                            <td><span class="badge badge-success">Active</span></td>
+                            <td>Dec 10, 2025</td>
+                            <td><button class="action-btn">👁️</button> <button class="action-btn">✏️</button> <button
+                                    class="action-btn">🗑️</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="flex items-center gap-3">
+                                    <div class="user-avatar student">👧</div>
+                                    <div>
+                                        <div style="font-weight:500">Lakshmi Nair</div>
+                                        <div style="font-size:var(--font-size-sm);color:var(--text-muted)">
+                                            lakshmi@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge badge-primary">Student</span></td>
+                            <td>Class 8 • Kerala State</td>
+                            <td><span class="badge badge-success">Active</span></td>
+                            <td>Jan 20, 2026</td>
+                            <td><button class="action-btn">👁️</button> <button class="action-btn">✏️</button> <button
+                                    class="action-btn">🗑️</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="flex items-center gap-3">
+                                    <div class="user-avatar teacher">👩‍🎓</div>
+                                    <div>
+                                        <div style="font-weight:500">Priya Nair</div>
+                                        <div style="font-size:var(--font-size-sm);color:var(--text-muted)">
+                                            priya@college.edu</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge"
+                                    style="background:rgba(16,185,129,0.2);color:var(--success)">Teacher</span></td>
+                            <td>NIT Calicut</td>
+                            <td><span class="badge badge-warning">Pending</span></td>
+                            <td>Jan 28, 2026</td>
+                            <td><button class="action-btn" style="background:var(--success);color:white">✓</button>
+                                <button class="action-btn" style="background:var(--error);color:white">✗</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="flex items-center gap-3">
+                                    <div class="user-avatar student">👦</div>
+                                    <div>
+                                        <div style="font-weight:500">Vishnu Kumar</div>
+                                        <div style="font-size:var(--font-size-sm);color:var(--text-muted)">
+                                            vishnu@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge badge-primary">Student</span></td>
+                            <td>Class 10 • ICSE</td>
+                            <td><span class="badge badge-success">Active</span></td>
+                            <td>Jan 5, 2026</td>
+                            <td><button class="action-btn">👁️</button> <button class="action-btn">✏️</button> <button
+                                    class="action-btn">🗑️</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex justify-between items-center" style="margin-top:var(--space-6)">
+                <div style="color:var(--text-muted);font-size:var(--font-size-sm)">Showing 1-5 of 1,305 users</div>
+                <div class="flex gap-2">
+                    <button class="btn btn-sm btn-secondary">← Prev</button>
+                    <button class="btn btn-sm btn-primary">1</button>
+                    <button class="btn btn-sm btn-secondary">2</button>
+                    <button class="btn btn-sm btn-secondary">3</button>
+                    <button class="btn btn-sm btn-secondary">Next →</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../scripts/main.js"></script>
+</body>
+
+</html>

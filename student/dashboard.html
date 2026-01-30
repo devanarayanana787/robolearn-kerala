@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Student Dashboard - RoboLearn Kerala Robotics Education Platform">
+    <title>Dashboard | RoboLearn Kerala</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+
+    <style>
+        .progress-ring {
+            width: 120px;
+            height: 120px;
+            position: relative;
+        }
+
+        .progress-ring svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 8;
+        }
+
+        .progress-ring .bg {
+            stroke: var(--glass-border);
+        }
+
+        .progress-ring .progress {
+            stroke: url(#gradient);
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        .progress-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+        }
+
+        .activity-card {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-4);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .activity-card:hover {
+            background: var(--glass-bg-light);
+            transform: translateX(4px);
+        }
+
+        .activity-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-card);
+            border-radius: var(--radius-lg);
+            font-size: 24px;
+        }
+
+        .activity-info {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: var(--space-1);
+        }
+
+        .activity-meta {
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+        }
+
+        .activity-status {
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+        }
+
+        .activity-status.pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .activity-status.completed {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .activity-status.in-progress {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary-light);
+        }
+
+        .achievement-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-4);
+            text-align: center;
+        }
+
+        .achievement-icon {
+            font-size: 40px;
+        }
+
+        .achievement-name {
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+        }
+
+        .quick-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-6);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .quick-action:hover {
+            background: var(--gradient-card);
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
+
+        .quick-action-icon {
+            font-size: 36px;
+        }
+
+        .upcoming-session {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+        }
+
+        .session-time {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--font-size-sm);
+            color: var(--primary-light);
+            margin-bottom: var(--space-3);
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            transition: background var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .resource-item:hover {
+            background: var(--glass-bg);
+        }
+
+        .resource-icon {
+            font-size: 24px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: var(--space-4);
+            left: var(--space-4);
+            z-index: 400;
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-lg);
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="mobile-menu-btn" onclick="RoboLearn.toggleSidebar()">☰</button>
+
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span style="font-size: 28px;">🤖</span>
+                <span class="sidebar-brand-text">RoboLearn</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="sidebar-link active">
+                    <span>📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="activities.html" class="sidebar-link">
+                    <span>📝</span>
+                    <span>Activities</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <span>📚</span>
+                    <span>Courses</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <span>🎥</span>
+                    <span>Live Sessions</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <span>📁</span>
+                    <span>Resources</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <span>🏆</span>
+                    <span>Achievements</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <span>👤</span>
+                    <span>My Profile</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <span>⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div style="margin-top: auto; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="login.html" class="sidebar-link" style="color: var(--error);">
+                    <span>🚪</span>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Welcome back, Arjun! 👋</h1>
+                    <p class="dashboard-subtitle">Let's continue your robotics journey today</p>
+                </div>
+                <div class="flex gap-4 items-center">
+                    <div class="glass-card-static"
+                        style="padding: var(--space-2) var(--space-4); display: flex; align-items: center; gap: var(--space-2);">
+                        <span>🔥</span>
+                        <span style="font-weight: 600;">7 Day Streak!</span>
+                    </div>
+                    <div
+                        style="width: 44px; height: 44px; background: var(--gradient-primary); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                        👦
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Projects Completed</div>
+                    <div class="stat-change positive">↑ 3 this week</div>
+                </div>
+
+                <div class="stat-card success">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-value">24h</div>
+                    <div class="stat-label">Learning Hours</div>
+                    <div class="stat-change positive">↑ 5h this week</div>
+                </div>
+
+                <div class="stat-card warning">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-value">85%</div>
+                    <div class="stat-label">Accuracy Score</div>
+                    <div class="stat-change positive">↑ 2%</div>
+                </div>
+
+                <div class="stat-card info">
+                    <div class="stat-icon">🏅</div>
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Badges Earned</div>
+                    <div class="stat-change positive">↑ 1 new</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6" style="margin-bottom: var(--space-8);">
+                <!-- Current Progress -->
+                <div class="glass-card-static" style="grid-column: span 2;">
+                    <div class="flex justify-between items-center" style="margin-bottom: var(--space-6);">
+                        <h3>Current Course Progress</h3>
+                        <a href="#" class="btn btn-sm btn-secondary">View All</a>
+                    </div>
+
+                    <div class="flex gap-8 items-center">
+                        <div class="progress-ring">
+                            <svg width="120" height="120">
+                                <defs>
+                                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#6366f1" />
+                                        <stop offset="100%" stop-color="#8b5cf6" />
+                                    </linearGradient>
+                                </defs>
+                                <circle class="bg" cx="60" cy="60" r="52" />
+                                <circle class="progress" cx="60" cy="60" r="52" stroke-dasharray="327"
+                                    stroke-dashoffset="98" />
+                            </svg>
+                            <div class="progress-value">70%</div>
+                        </div>
+
+                        <div style="flex: 1;">
+                            <h4 style="margin-bottom: var(--space-2);">Arduino Basics: LED Projects</h4>
+                            <p style="color: var(--text-secondary); margin-bottom: var(--space-4);">
+                                Learn to control LEDs, create patterns, and build your first interactive project.
+                            </p>
+                            <div class="flex gap-4">
+                                <div>
+                                    <div style="font-size: var(--font-size-sm); color: var(--text-muted);">Completed
+                                    </div>
+                                    <div style="font-weight: 600;">7/10 Lessons</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: var(--font-size-sm); color: var(--text-muted);">Time Left
+                                    </div>
+                                    <div style="font-weight: 600;">~2 hours</div>
+                                </div>
+                            </div>
+                            <a href="#" class="btn btn-primary" style="margin-top: var(--space-4);">Continue Learning
+                                →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Session -->
+                <div class="glass-card-static">
+                    <h3 style="margin-bottom: var(--space-4);">Next Live Session</h3>
+                    <div class="upcoming-session">
+                        <div class="session-time">
+                            <span>🕐</span>
+                            <span>Today, 4:00 PM</span>
+                        </div>
+                        <h4 style="margin-bottom: var(--space-2);">Motor Control Workshop</h4>
+                        <p
+                            style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: var(--space-4);">
+                            Learn to control DC motors and build a simple robot car.
+                        </p>
+                        <div class="flex gap-2 items-center" style="margin-bottom: var(--space-4);">
+                            <div
+                                style="width: 32px; height: 32px; background: var(--gradient-primary); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center;">
+                                👨‍🏫
+                            </div>
+                            <div>
+                                <div style="font-size: var(--font-size-sm); font-weight: 500;">Rahul Krishna</div>
+                                <div style="font-size: var(--font-size-xs); color: var(--text-muted);">Instructor</div>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-primary btn-sm w-full">Join Session</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Recent Activities -->
+                <div class="glass-card-static" style="grid-column: span 2;">
+                    <div class="flex justify-between items-center" style="margin-bottom: var(--space-6);">
+                        <h3>Recent Activities</h3>
+                        <a href="activities.html" class="btn btn-sm btn-secondary">View All</a>
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        <div class="activity-card">
+                            <div class="activity-icon">💡</div>
+                            <div class="activity-info">
+                                <div class="activity-title">LED Traffic Light Simulation</div>
+                                <div class="activity-meta">Arduino Basics • Due Tomorrow</div>
+                            </div>
+                            <span class="activity-status in-progress">In Progress</span>
+                        </div>
+
+                        <div class="activity-card">
+                            <div class="activity-icon">🔊</div>
+                            <div class="activity-info">
+                                <div class="activity-title">Buzzer Music Project</div>
+                                <div class="activity-meta">Sound & Music • Due in 3 days</div>
+                            </div>
+                            <span class="activity-status pending">Pending</span>
+                        </div>
+
+                        <div class="activity-card">
+                            <div class="activity-icon">📡</div>
+                            <div class="activity-info">
+                                <div class="activity-title">Distance Sensor Reading</div>
+                                <div class="activity-meta">Sensors Module • Completed Yesterday</div>
+                            </div>
+                            <span class="activity-status completed">Completed</span>
+                        </div>
+
+                        <div class="activity-card">
+                            <div class="activity-icon">🌡️</div>
+                            <div class="activity-info">
+                                <div class="activity-title">Temperature Monitor</div>
+                                <div class="activity-meta">Sensors Module • Completed 2 days ago</div>
+                            </div>
+                            <span class="activity-status completed">Completed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievements -->
+                <div class="glass-card-static">
+                    <h3 style="margin-bottom: var(--space-6);">Your Achievements</h3>
+
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="achievement-badge">
+                            <div class="achievement-icon">🥇</div>
+                            <div class="achievement-name">First Code</div>
+                        </div>
+                        <div class="achievement-badge">
+                            <div class="achievement-icon">🔥</div>
+                            <div class="achievement-name">7 Day Streak</div>
+                        </div>
+                        <div class="achievement-badge">
+                            <div class="achievement-icon">⚡</div>
+                            <div class="achievement-name">Quick Learner</div>
+                        </div>
+                        <div class="achievement-badge">
+                            <div class="achievement-icon">💡</div>
+                            <div class="achievement-name">LED Master</div>
+                        </div>
+                        <div class="achievement-badge">
+                            <div class="achievement-icon">🎯</div>
+                            <div class="achievement-name">Perfect Score</div>
+                        </div>
+                        <div class="achievement-badge" style="opacity: 0.4;">
+                            <div class="achievement-icon">🔒</div>
+                            <div class="achievement-name">Locked</div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid var(--border-color);">
+                        <h4 style="font-size: var(--font-size-sm); margin-bottom: var(--space-3);">Quick Resources</h4>
+                        <div class="resource-item">
+                            <span class="resource-icon">📖</span>
+                            <span>Arduino Cheat Sheet</span>
+                        </div>
+                        <div class="resource-item">
+                            <span class="resource-icon">🎬</span>
+                            <span>Video Tutorials</span>
+                        </div>
+                        <div class="resource-item">
+                            <span class="resource-icon">❓</span>
+                            <span>FAQ & Help</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../scripts/main.js"></script>
+</body>
+
+</html>
