@@ -1,0 +1,305 @@
+/* ============================================
+   Delta Robotics Jr. - Mobile & Tablet Optimizations
+   Modern CSS for responsive design
+   ============================================ */
+
+/* Touch-friendly improvements */
+@media (pointer: coarse) {
+
+    /* Larger tap targets for touch devices */
+    .btn,
+    button,
+    a {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .nav-link {
+        padding: var(--space-3) var(--space-4);
+    }
+
+    .form-input,
+    .form-select {
+        min-height: 48px;
+        font-size: 16px;
+        /* Prevents iOS zoom on input focus */
+    }
+
+    /* Disable hover effects on touch devices */
+    .glass-card:hover,
+    .feature-card:hover,
+    .price-card:hover {
+        transform: none;
+    }
+}
+
+/* Mobile-first base styles */
+@media (max-width: 768px) {
+    :root {
+        --space-base: 0.9rem;
+    }
+
+    body {
+        font-size: 15px;
+    }
+
+    .container {
+        padding-left: var(--space-4);
+        padding-right: var(--space-4);
+    }
+
+    .hero {
+        padding-top: 100px;
+        min-height: auto;
+        padding-bottom: var(--space-12);
+    }
+
+    .hero-title {
+        font-size: var(--font-size-3xl);
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: var(--font-size-base);
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .section-title {
+        font-size: var(--font-size-2xl);
+    }
+
+    .section-subtitle {
+        font-size: var(--font-size-sm);
+    }
+
+    /* Stack grids on mobile */
+    .grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Full width cards on mobile */
+    .feature-card,
+    .price-card,
+    .glass-card-static {
+        padding: var(--space-5);
+    }
+
+    /* Pricing cards stack */
+    .pricing-grid {
+        gap: var(--space-6);
+    }
+
+    .price-card.featured {
+        transform: none;
+        margin: 0;
+    }
+
+    /* Footer mobile layout */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+        text-align: center;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+
+    /* Mobile navigation improvements */
+    .nav-brand span {
+        font-size: var(--font-size-base);
+    }
+
+    .nav-brand img {
+        height: 32px;
+    }
+
+    /* Stats in hero */
+    .hero-stats {
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+
+    /* Hide large hero robot on mobile */
+    .hero-robot {
+        display: none !important;
+    }
+}
+
+/* Tablet Portrait (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        padding-left: var(--space-6);
+        padding-right: var(--space-6);
+    }
+
+    .hero-title {
+        font-size: var(--font-size-4xl);
+    }
+
+    .grid-cols-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Dashboard sidebar */
+    .sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        bottom: 0;
+        z-index: 1000;
+        transition: left var(--transition-base);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: var(--space-4);
+    }
+
+    /* Hide or resize hero robot on tablet */
+    .hero-robot {
+        width: 250px;
+        height: 250px;
+        opacity: 0.5;
+    }
+
+    .hero-robot::before {
+        font-size: 100px;
+    }
+}
+
+/* Landscape mobile adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero {
+        min-height: auto;
+        padding: var(--space-20) 0;
+    }
+
+    .nav-mobile {
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+}
+
+/* High DPI / Retina displays */
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+
+    .nav-brand img,
+    .footer-brand img {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}
+
+/* Safe area insets for notched devices (iPhone X+) */
+@supports (padding: max(0px)) {
+    .navbar {
+        padding-left: max(var(--space-4), env(safe-area-inset-left));
+        padding-right: max(var(--space-4), env(safe-area-inset-right));
+    }
+
+    .footer {
+        padding-bottom: max(var(--space-12), env(safe-area-inset-bottom));
+    }
+
+    .nav-mobile {
+        padding-left: max(var(--space-6), env(safe-area-inset-left));
+        padding-right: max(var(--space-6), env(safe-area-inset-right));
+    }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .glow-orb,
+    .hero-robot,
+    .floating {
+        animation: none;
+    }
+}
+
+/* Dark mode preference (already default, but explicit) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+    }
+}
+
+/* Smooth scrolling on mobile */
+html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent text selection issues on mobile */
+.btn,
+button,
+.nav-link,
+.nav-toggle {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+/* Loading performance - content visibility */
+.features-section,
+.how-section,
+.kit-section,
+.pricing-section,
+.testimonials-section,
+.cta-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 500px;
+}
+
+/* Container queries for future-proofing */
+@supports (container-type: inline-size) {
+    .card-container {
+        container-type: inline-size;
+    }
+
+    @container (max-width: 300px) {
+        .feature-card {
+            padding: var(--space-4);
+        }
+
+        .feature-icon {
+            font-size: 36px;
+        }
+    }
+}

@@ -3,17 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login | RoboLearn Kerala</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Admin Login | Delta Robotics</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/mobile.css">
     <style>
         .auth-page {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #7c3aed 100%);
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
             position: relative;
             padding: var(--space-6);
         }
@@ -22,7 +23,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.3) 0%, transparent 60%);
+            background: radial-gradient(circle at 50% 50%, rgba(249, 115, 22, 0.3) 0%, transparent 60%);
             pointer-events: none;
         }
 
@@ -102,14 +103,14 @@
         }
 
         .admin-warning {
-            background: rgba(124, 58, 237, 0.2);
-            border: 1px solid rgba(124, 58, 237, 0.4);
+            background: rgba(249, 115, 22, 0.2);
+            border: 1px solid rgba(249, 115, 22, 0.4);
             border-radius: var(--radius-lg);
             padding: var(--space-4);
             text-align: center;
             margin-bottom: var(--space-6);
             font-size: var(--font-size-sm);
-            color: var(--accent-light);
+            color: var(--primary-light);
         }
     </style>
 </head>
@@ -121,9 +122,9 @@
             <div class="auth-card">
                 <div class="auth-header">
                     <div class="auth-logo">
-                        <span style="font-size: 40px;">🔐</span>
-                        <span style="font-size: var(--font-size-xl); font-weight: 700;">RoboLearn <span
-                                style="color: var(--accent-light);">Admin</span></span>
+                        <img src="../assets/logo.png" alt="Delta Jr." style="height: 50px; border-radius: 8px;">
+                        <span style="font-size: var(--font-size-xl); font-weight: 700;">Delta Jr. <span
+                                style="color: var(--primary-light);">Admin</span></span>
                     </div>
                     <h1 class="auth-title">Admin Portal</h1>
                     <p class="auth-subtitle">Authorized personnel only</p>
@@ -132,7 +133,7 @@
                 <form class="auth-form" onsubmit="handleLogin(event)">
                     <div class="form-group">
                         <label class="form-label">Admin Email</label>
-                        <input type="email" class="form-input" placeholder="admin@robolearnkerala.com" required>
+                        <input type="email" class="form-input" placeholder="admin@deltarobotics.in" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Password</label>
@@ -146,7 +147,7 @@
                         <input type="text" class="form-input" placeholder="Enter 6-digit code" maxlength="6">
                     </div>
                     <button type="submit" class="btn btn-lg w-full"
-                        style="background: linear-gradient(135deg, #7c3aed, #8b5cf6);">Access Admin Panel</button>
+                        style="background: linear-gradient(135deg, #EA580C, #F97316);">Access Admin Panel</button>
                 </form>
             </div>
         </div>

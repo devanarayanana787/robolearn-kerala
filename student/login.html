@@ -3,14 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Student Login - RoboLearn Kerala Robotics Education Platform">
-    <title>Student Login | RoboLearn Kerala</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="description" content="Student Login - Delta Robotics Robotics Education Platform">
+    <title>Student Login | Delta Robotics</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/mobile.css">
 
     <style>
         .auth-page {
@@ -32,8 +33,8 @@
             right: 0;
             bottom: 0;
             background:
-                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.3) 0%, transparent 50%);
+                radial-gradient(circle at 20% 80%, rgba(249, 115, 22, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(234, 88, 12, 0.3) 0%, transparent 50%);
             pointer-events: none;
         }
 
@@ -227,8 +228,9 @@
             <div class="auth-card">
                 <div class="auth-header">
                     <div class="auth-logo">
-                        <span class="auth-logo-icon">🤖</span>
-                        <span class="auth-logo-text">RoboLearn <span class="text-gradient">Kerala</span></span>
+                        <img src="../assets/logo.png" alt="Delta Robotics Jr."
+                            style="height: 50px; border-radius: 8px;">
+                        <span class="auth-logo-text">Delta <span class="text-gradient">Jr.</span></span>
                     </div>
                     <h1 class="auth-title">Student Portal</h1>
                     <p class="auth-subtitle">Access your robotics learning dashboard</p>
@@ -392,7 +394,7 @@
         function handleRegister(e) {
             e.preventDefault();
             // Simulate registration - redirect to dashboard
-            RoboLearn.showToast('Registration successful! Redirecting...', 'success');
+            DeltaRobotics.showToast('Registration successful! Redirecting...', 'success');
             setTimeout(() => {
                 window.location.href = 'dashboard.html';
             }, 1500);

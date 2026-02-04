@@ -1,4 +1,4 @@
-# RoboLearn Kerala
+# Delta Robotics
 
 🤖 Educational Robotics & Arduino Platform for Kerala School Students (Grades 7-10)
 
@@ -48,4 +48,4 @@ python3 -m http.server 8080
 ```
 
 ## License
-© 2026 RoboLearn Kerala. All rights reserved.
+© 2026 Delta Robotics. All rights reserved.

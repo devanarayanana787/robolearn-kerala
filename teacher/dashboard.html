@@ -3,18 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Teacher Dashboard - RoboLearn Kerala">
-    <title>Teacher Dashboard | RoboLearn Kerala</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="description" content="Teacher Dashboard - Delta Robotics">
+    <title>Teacher Dashboard | Delta Robotics</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/mobile.css">
 
     <style>
         .earnings-card {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(139, 92, 246, 0.1) 100%);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(234, 88, 12, 0.1) 100%);
             border: 1px solid rgba(16, 185, 129, 0.3);
             border-radius: var(--radius-xl);
             padding: var(--space-8);
@@ -83,7 +84,7 @@
         }
 
         .session-status.upcoming {
-            background: rgba(99, 102, 241, 0.2);
+            background: rgba(249, 115, 22, 0.2);
             color: var(--primary-light);
         }
 
@@ -222,7 +223,7 @@
             z-index: 400;
             width: 44px;
             height: 44px;
-            background: linear-gradient(135deg, #8b5cf6 0%, #10b981 100%);
+            background: linear-gradient(135deg, #F97316 0%, #10b981 100%);
             border-radius: var(--radius-lg);
             align-items: center;
             justify-content: center;
@@ -238,15 +239,15 @@
 </head>
 
 <body>
-    <button class="mobile-menu-btn" onclick="RoboLearn.toggleSidebar()">☰</button>
+    <button class="mobile-menu-btn" onclick="DeltaRobotics.toggleSidebar()">☰</button>
 
     <div class="dashboard">
         <!-- Sidebar -->
         <aside class="sidebar"
             style="background: linear-gradient(180deg, var(--bg-secondary) 0%, rgba(16, 185, 129, 0.05) 100%);">
             <div class="sidebar-brand">
-                <span style="font-size: 28px;">👨‍🏫</span>
-                <span class="sidebar-brand-text">RoboLearn</span>
+                <img src="../assets/logo.png" alt="Delta Jr." style="height: 36px; border-radius: 6px;">
+                <span class="sidebar-brand-text">Delta Jr.</span>
             </div>
 
             <nav class="sidebar-nav">
@@ -302,7 +303,7 @@
                 <div class="flex gap-4 items-center">
                     <a href="#" class="btn btn-primary">+ Schedule Session</a>
                     <div
-                        style="width: 44px; height: 44px; background: linear-gradient(135deg, #8b5cf6, #10b981); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                        style="width: 44px; height: 44px; background: linear-gradient(135deg, #F97316, #10b981); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: 20px;">
                         👨‍🎓
                     </div>
                 </div>

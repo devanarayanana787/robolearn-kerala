@@ -1,5 +1,5 @@
 /**
- * RoboLearn Kerala - Main JavaScript
+ * Delta Robotics - Main JavaScript
  * Handles navigation, animations, and interactivity
  */
 
@@ -271,7 +271,7 @@ function toggleSidebar() {
 /**
  * Export functions for global use
  */
-window.RoboLearn = {
+window.DeltaRobotics = {
     toggleTheme,
     validateForm,
     showToast,

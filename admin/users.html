@@ -3,10 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management | RoboLearn Kerala</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>User Management | Delta Robotics</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/mobile.css">
     <style>
         .user-filters {
             display: flex;
@@ -49,7 +50,7 @@
         }
 
         .user-avatar.teacher {
-            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            background: linear-gradient(135deg, #F97316, #10b981);
         }
 
         .action-btn {
@@ -93,11 +94,11 @@
 </head>
 
 <body>
-    <button class="mobile-menu-btn" onclick="RoboLearn.toggleSidebar()">☰</button>
+    <button class="mobile-menu-btn" onclick="DeltaRobotics.toggleSidebar()">☰</button>
     <div class="dashboard">
         <aside class="sidebar"
             style="background: linear-gradient(180deg, var(--bg-secondary) 0%, rgba(124,58,237,0.05) 100%);">
-            <div class="sidebar-brand"><span style="font-size:28px">🔐</span><span class="sidebar-brand-text">Admin
+            <div class="sidebar-brand"><img src="../assets/logo.png" alt="Delta Jr." style="height: 36px; border-radius: 6px;"><span class="sidebar-brand-text">Admin
                     Panel</span></div>
             <nav class="sidebar-nav">
                 <a href="dashboard.html" class="sidebar-link"><span>📊</span><span>Dashboard</span></a>
